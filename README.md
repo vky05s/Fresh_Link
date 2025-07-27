@@ -162,6 +162,9 @@ Design logic, UI flows, and feature strategy inspired by the needs of local mark
 
 If you need further customization, want deployment tips, or would like to add screenshots, project badges, or step-by-step walkthroughs, feel free to ask!
 
+
 [1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/81643340/13b82ff8-f858-467a-9f6a-b01c513b649d/index.html
-[2] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/81643340/c35ebdcd-0f8a-4bd0-b339-b344d55ae617/script.js
+
+[2] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/81643340/c35ebdcd-0f8a-4bd0-b339-b344d55ae617/script.js 
+
 [3] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/attachments/81643340/42e11225-5afc-4140-b9a9-d58bb1cb4743/style.css
