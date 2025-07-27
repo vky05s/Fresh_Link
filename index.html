@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshLink - Direct Ingredient Sourcing</title>
+    <link rel="icon" href="Images/logo.png" type="image/png"> 
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="page active">
+        <!-- Header -->
+        <header class="landing-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <i class="fas fa-leaf"></i>
+                        <span>FreshLink</span>
+                    </div>
+                    <div class="auth-buttons">
+                        <button class="btn-secondary" onclick="showAuth('signin')"><span>Sign In</span></button>
+                        <button class="btn-primary" onclick="showAuth('signup')"><span>Sign Up</span></button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <main class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>"Connect Vendors <span class="highlight">Directly</span> with Farmers."</h1>
+                    <p>Fresh ingredients sourced directly from local farmers. Compare prices, track orders, and build lasting relationships in the food supply chain.</p>
+                    <div class="hero-buttons">
+                        <button class="btn-primary large" onclick="showAuth('signup')"> <span>Get Started Today</span></button>
+                        <button class="btn-outline large" onclick="showAuth('signin')">I Have an Account</button>
+                    </div>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon green">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Direct Connection</h3>
+                        <p>Connect street vendors directly with local farmers.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon orange">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Price Comparison</h3>
+                        <p>Compare prices from multiple sellers and get the best deals on fresh produce.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon blue">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h3>Quality Assured</h3>
+                        <p>Rate and review sellers to maintain high quality standards.</p>
+                    </div>
+                </div>
+
+                <!-- Stats Section -->
+                <div class="stats-section">
+                    <div class="stat">
+                        <div class="stat-number green">1000+</div>
+                        <div class="stat-label">Active Farmers</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number orange">500+</div>
+                        <div class="stat-label">Street Vendors</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number blue">50+</div>
+                        <div class="stat-label">Delivery Partners</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number purple">10k+</div>
+                        <div class="stat-label">Orders Completed</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Auth Flow -->
+    <div id="auth-page" class="page">
+        <div class="auth-container">
+            <button class="back-btn" onclick="showLanding()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            
+            <h2 id="auth-title">Create Account</h2>
+            
+            <!-- Step 1: Name (Signup only) -->
+            <div id="auth-step-1" class="auth-step">
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" id="firstName" placeholder="Enter your first name">
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" id="lastName" placeholder="Enter your last name">
+                </div>
+            </div>
+
+            <!-- Step 2: Phone -->
+            <div id="auth-step-2" class="auth-step hidden">
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone" placeholder="+91 98765 43210">
+                </div>
+            </div>
+
+            <!-- Step 3: OTP -->
+            <div id="auth-step-3" class="auth-step hidden">
+                <div class="form-group">
+                    <label>Enter OTP</label>
+                    <input type="text" id="otp" placeholder="• • • •" maxlength="4" class="otp-input">
+                    <p class="otp-info">We've sent a 4-digit code to <span id="phone-display"></span></p>
+                </div>
+            </div>
+
+            <button id="auth-continue" class="btn-primary full-width" onclick="handleAuthContinue()">
+                <span>Continue</span> <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Role Selection Modal -->
+    <div id="role-modal" class="modal">
+        <div class="modal-content">
+            <h3>Choose your role</h3>
+            <div class="role-options">
+                <button class="role-option" onclick="selectRole('vendor')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <div>
+                        <div class="role-title">Buyer (Street Vendor)</div>
+                        <div class="role-desc">Purchase ingredients from farmers</div>
+                    </div>
+                </button>
+                <button class="role-option" onclick="selectRole('seller')">
+                    <i class="fas fa-seedling"></i>
+                    <div>
+                        <div class="role-title">Seller (Farmer)</div>
+                        <div class="role-desc">Sell fresh produce to vendors</div>
+                    </div>
+                </button>
+                <button class="role-option" onclick="selectRole('delivery')">
+                    <i class="fas fa-truck"></i>
+                    <div>
+                        <div class="role-title">Delivery Partner</div>
+                        <div class="role-desc">Handle deliveries between farmers and vendors</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor Dashboard -->
+    <div id="vendor-dashboard" class="page dashboard">
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <i class="fas fa-leaf text-green"></i>
+                        <div>
+                            <div class="logo-text">FreshLink</div>
+                            <div class="role-badge green">Buyer</div>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <div class="cart-icon" onclick="setVendorTab('cart')">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cart-count" class="cart-badge">0</span>
+                        </div>
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <span id="vendor-avatar">V</span>
+                            </div>
+                            <div class="user-details">
+                                <div id="vendor-name">Vendor Name</div>
+                                <div id="vendor-phone">+91 98765 43210</div>
+                            </div>
+                        </div>
+                       
+
+<button class="logout-Btn"  onclick="signOut()">
+  <div class="sign">
+    <svg viewBox="0 0 512 512">
+      <path
+        d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+      ></path>
+    </svg>
+  </div>
+
+  <div class="text">Logout</div>
+</button>
+
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Vendor Home -->
+            <div id="vendor-home" class="tab-content active">
+                <div class="container">
+                    <div class="welcome-card green">
+                        <h2>Welcome back, <span id="vendor-welcome-name">Vendor</span>!</h2>
+                        <p>Find the freshest ingredients at the best prices</p>
+                    </div>
+
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search for vegetables, fruits...">
+                    </div>
+
+                    <div class="section">
+                        <h3>Quick Reorder</h3>
+                        <div class="quick-reorder-grid">
+                            <div class="reorder-card">
+                                <div class="order-items">Tomatoes 2kg, Onions 1kg</div>
+                                <div class="order-total">₹105</div>
+                                <button class="btn-secondary small"><span>Reorder</span></button>
+                            </div>
+                            <div class="reorder-card">
+                                <div class="order-items">Apples 1kg, Milk 2L</div>
+                                <div class="order-total">₹240</div>
+                                <button class="btn-secondary small"><span>Reorder</span></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Today's Best Deals</h3>
+                        <div class="deals-list">
+                            <div class="deal-item">
+                                <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg" alt="Tomatoes">
+                                <div class="deal-info">
+                                    <h4>Fresh Tomatoes</h4>
+                                    <div class="price">₹40/kg</div>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.5</span>
+                                    </div>
+                                </div>
+                                <button class="btn-primary small" onclick="addToCart('tomatoes', 'Farm Fresh Co.', 40, 1, 'kg')"><span>Add</span></button>
+                            
+                            </div>
+                            <div class="deal-item">
+                                <img src="https://images.pexels.com/photos/533342/pexels-photo-533342.jpeg" alt="Onions">
+                                <div class="deal-info">
+                                    <h4>Onions</h4>
+                                    <div class="price">₹25/kg</div>
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <span>4.0</span>
+                                    </div>
+                                </div>
+                                <button class="btn-primary small" onclick="addToCart('onions', 'Local Farms', 25, 1, 'kg')"><span>Add</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendor Categories -->
+            <div id="vendor-categories" class="tab-content">
+                <div class="container">
+                    <div class="category-tabs">
+                        <button class="category-tab active" onclick="setCategory('vegetables')">Vegetables</button>
+                        <button class="category-tab" onclick="setCategory('fruits')">Fruits</button>
+                        <button class="category-tab" onclick="setCategory('dairy')">Dairy</button>
+                    </div>
+
+                    <div id="products-list" class="products-list">
+                        <!-- Products will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendor Orders -->
+            <div id="vendor-orders" class="tab-content">
+                <div class="container">
+                    <div class="orders-list">
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">Order #1</div>
+                                    <div class="order-items">Tomatoes 2kg, Onions 1kg</div>
+                                </div>
+                                <div class="order-status delivered">Delivered</div>
+                            </div>
+                            <div class="order-footer">
+                                <div class="order-total">₹105</div>
+                                <div class="rating-section">
+                                    <span>Rate your experience:</span>
+                                    <div class="stars">
+                                        <i class="fas fa-star" onclick="rateOrder(1, 1)"></i>
+                                        <i class="fas fa-star" onclick="rateOrder(1, 2)"></i>
+                                        <i class="fas fa-star" onclick="rateOrder(1, 3)"></i>
+                                        <i class="fas fa-star" onclick="rateOrder(1, 4)"></i>
+                                        <i class="fas fa-star" onclick="rateOrder(1, 5)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div>
+                                    <div class="order-id">Order #2</div>
+                                    <div class="order-items">Apples 1kg, Milk 2L</div>
+                                </div>
+                                <div class="order-status in-transit">In Transit</div>
+                            </div>
+                            <div class="order-footer">
+                                <div class="order-total">₹240</div>
+                                <div class="order-eta">ETA: 30 mins</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vendor Cart -->
+            <div id="vendor-cart" class="tab-content">
+                <div class="container">
+                    <div id="cart-items" class="cart-items">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    <div id="cart-empty" class="empty-state">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Your cart is empty</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="setVendorTab('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="setVendorTab('categories')">
+                <i class="fas fa-th-large"></i>
+                <span>Categories</span>
+            </button>
+            <button class="nav-item" onclick="setVendorTab('orders')">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Orders</span>
+            </button>
+            <button class="nav-item" onclick="setVendorTab('cart')">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span>
+                <span id="nav-cart-count" class="nav-badge">0</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Seller Dashboard -->
+    <div id="seller-dashboard" class="page dashboard">
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <i class="fas fa-leaf text-orange"></i>
+                        <div>
+                            <div class="logo-text">FreshLink</div>
+                            <div class="role-badge orange">Seller</div>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <span id="seller-avatar">S</span>
+                            </div>
+                            <div class="user-details">
+                                <div id="seller-name">Seller Name</div>
+                                <div id="seller-phone">+91 98765 43210</div>
+                            </div>
+                        </div>
+                     <button class="logout-Btn"  onclick="signOut()">
+  <div class="sign">
+    <svg viewBox="0 0 512 512">
+      <path
+        d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+      ></path>
+    </svg>
+  </div>
+
+  <div class="text">Logout</div>
+</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Seller Home -->
+            <div id="seller-home" class="tab-content active">
+                <div class="container">
+                    <div class="welcome-card orange">
+                        <h2>Hello, <span id="seller-welcome-name">Farmer</span>!</h2>
+                        <p>Your farm is helping feed the community</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">Today's Revenue</div>
+                                <div class="stat-value green">₹2,450</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">Orders</div>
+                                <div class="stat-value">8</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon purple">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">New Customers</div>
+                                <div class="stat-value">3</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon yellow">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">Rating</div>
+                                <div class="stat-value">4.6</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Recent Orders</h3>
+                        <div class="orders-list">
+                            <div class="order-card">
+                                <div class="order-header">
+                                    <div>
+                                        <div class="order-buyer">Street Vendor A</div>
+                                        <div class="order-items">Tomatoes 5kg</div>
+                                        <div class="order-time">10 mins ago</div>
+                                    </div>
+                                    <div>
+                                        <div class="order-total">₹200</div>
+                                        <div class="order-status new">New</div>
+                                    </div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-primary small"><span>Accept</span></button>
+                                    <button class="btn-primary small"><span>Decline</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert-card red">
+                        <h3>Stock Alert</h3>
+                        <p>Bell Peppers are running low (12kg remaining)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seller Products -->
+            <div id="seller-products" class="tab-content">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>My Products</h2>
+                        <button class="btn-primary" onclick="showAddProduct()">
+                            <span> <i class="fas fa-plus"></i>Add Product</span> 
+                        </button>
+                    </div>
+
+                    <div class="products-list">
+                        <div class="product-card">
+                            <img src="https://images.pexels.com/photos/1327838/pexels-photo-1327838.jpeg" alt="Tomatoes">
+                            <div class="product-info">
+                                <div class="product-header">
+                                    <div>
+                                        <h3>Fresh Tomatoes</h3>
+                                        <div class="price orange">₹40/kg</div>
+                                    </div>
+                                    <button class="edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="stock-info">Stock: 45 kg</div>
+                                    <div class="status-badge active">Active</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seller Orders -->
+            <div id="seller-orders" class="tab-content">
+                <div class="container">
+                    <h2>Order History</h2>
+                    <div class="orders-list">
+                        <!-- Orders will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seller Notifications -->
+            <div id="seller-notifications" class="tab-content">
+                <div class="container">
+                    <h2>Notifications</h2>
+                    <div class="notifications-list">
+                        <div class="notification-item unread">
+                            <div class="notification-content">
+                                <p>New order from Street Vendor A</p>
+                                <span class="notification-time">5 mins ago</span>
+                            </div>
+                            <div class="unread-dot"></div>
+                        </div>
+                        <div class="notification-item unread">
+                            <div class="notification-content">
+                                <p>Fresh Market sent you a message</p>
+                                <span class="notification-time">30 mins ago</span>
+                            </div>
+                            <div class="unread-dot"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="setSellerTab('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="setSellerTab('products')">
+                <i class="fas fa-box"></i>
+                <span>Products</span>
+            </button>
+            <button class="nav-item" onclick="setSellerTab('orders')">
+                <i class="fas fa-clock"></i>
+                <span>Orders</span>
+            </button>
+            <button class="nav-item" onclick="setSellerTab('notifications')">
+                <i class="fas fa-bell"></i>
+                <span>Alerts</span>
+                <span class="nav-badge">2</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Delivery Dashboard -->
+    <div id="delivery-dashboard" class="page dashboard">
+        <header class="dashboard-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo-section">
+                        <i class="fas fa-leaf text-blue"></i>
+                        <div>
+                            <div class="logo-text">FreshLink</div>
+                            <div class="role-badge blue">Delivery</div>
+                        </div>
+                    </div>
+                    <div class="header-actions">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <span id="delivery-avatar">D</span>
+                            </div>
+                            <div class="user-details">
+                                <div id="delivery-name">Delivery Partner</div>
+                                <div id="delivery-phone">+91 98765 43210</div>
+                            </div>
+                        </div>
+                       <button class="logout-Btn"  onclick="signOut()">
+  <div class="sign">
+    <svg viewBox="0 0 512 512">
+      <path
+        d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"
+      ></path>
+    </svg>
+  </div>
+
+  <div class="text">Logout</div>
+</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Delivery Home -->
+            <div id="delivery-home" class="tab-content active">
+                <div class="container">
+                    <div class="welcome-card blue">
+                        <h2>Ready to deliver, <span id="delivery-welcome-name">Partner</span>?</h2>
+                        <p>You have 3 pending tasks nearby</p>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">Today's Earnings</div>
+                                <div class="stat-value green">₹450</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">Deliveries</div>
+                                <div class="stat-value">6</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">Pending Tasks</div>
+                                <div class="stat-value">3</div>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon yellow">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <div class="stat-label">Rating</div>
+                                <div class="stat-value">4.8</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <h3>Available Tasks</h3>
+                        <div class="tasks-list">
+                            <div class="task-card">
+                                <div class="task-header">
+                                    <div>
+                                        <div class="task-route">Green Valley Farm → Street Vendor A</div>
+                                        <div class="task-items">Tomatoes 5kg, Onions 2kg</div>
+                                    </div>
+                                    <div>
+                                        <div class="task-payment">₹80</div>
+                                        <div class="task-distance">3.2 km</div>
+                                    </div>
+                                </div>
+                                <div class="task-info">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Est. 30 mins</span>
+                                </div>
+                                <div class="task-actions">
+                                    <button class="btn-primary small"><span>Accept</span></button>
+                                    <button class="btn-primary small"><span>Decline</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other delivery tabs would go here -->
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" onclick="setDeliveryTab('home')">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" onclick="setDeliveryTab('tasks')">
+                <i class="fas fa-list"></i>
+                <span>Tasks</span>
+            </button>
+            <button class="nav-item" onclick="setDeliveryTab('tracking')">
+                <i class="fas fa-route"></i>
+                <span>Tracking</span>
+            </button>
+            <button class="nav-item" onclick="setDeliveryTab('notifications')">
+                <i class="fas fa-bell"></i>
+                <span>Alerts</span>
+                <span class="nav-badge">2</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Chat Box -->
+    <div id="chat-box" class="chat-box">
+        <button id="chat-toggle" class="chat-toggle" onclick="toggleChat()">
+            <i class="fas fa-comments"></i>
+            <span class="chat-badge">2</span>
+        </button>
+        
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat with Farmers</span>
+                </div>
+                <div class="chat-controls">
+                    <button onclick="minimizeChat()">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button onclick="closeChat()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message received">
+                    <div class="message-sender">Farm Fresh Co.</div>
+                    <div class="message-content">Hi! I have fresh tomatoes available today. Would you like to place an order?</div>
+                    <div class="message-time">10:30 AM</div>
+                </div>
+                <div class="message sent">
+                    <div class="message-content">Yes, I need 5kg of tomatoes. What's your price?</div>
+                    <div class="message-time">10:32 AM</div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-message" placeholder="Type a message...">
+                <button onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div id="add-product-modal" class="modal">
+        <div class="modal-content">
+            <h3>Add New Product</h3>
+            <div class="form-group">
+                <label>Product Photo</label>
+                <div class="photo-upload">
+                    <i class="fas fa-camera"></i>
+                    <p>Tap to add photo</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Product Name</label>
+                <input type="text" placeholder="e.g., Fresh Tomatoes">
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" placeholder="40">
+                </div>
+                <div class="form-group">
+                    <label>Unit</label>
+                    <select>
+                        <option value="kg">per kg</option>
+                        <option value="gram">per 100g</option>
+                        <option value="piece">per piece</option>
+                        <option value="dozen">per dozen</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Available Quantity</label>
+                <input type="number" placeholder="50">
+            </div>
+            <div class="modal-actions">
+                <button class="btn-outline" onclick="closeAddProduct()"><span>Cancel</span></button>
+                <button class="btn-primary"><span>Add Product</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
