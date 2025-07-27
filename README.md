@@ -106,7 +106,6 @@ Dashboards present quick actions, order status, and personalized greetings, and 
 
 - **Frontend**: HTML5, CSS3, Vanilla JavaScript (no frameworks for simplicity and hackathon speed).
 - **Styling**: CSS (with utility classes and gradients, color codes for branding).
--" **Backend** (optional/demo): Node.js with Express, with in-memory arrays or JSON files for persistence (no full database required)."
 - **Images**: Backgrounds/images featuring fresh market produce (1920x1080 for landing), product photos, icons.
 - **Chat**: Demo logic for chat box; can be expanded to real-time communication with additional backend setup.
 
