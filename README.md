@@ -117,7 +117,6 @@ Dashboards present quick actions, order status, and personalized greetings, and 
   styles.css         // Styling for landing/auth/dashboard
   script.js             // All JS logic (navigation, state, flows)
   /images            // Images: vegetables, fruits, dairy, icons
-/server              // Node.js/Express backend (optional)
 README.md
 ```
 ---
